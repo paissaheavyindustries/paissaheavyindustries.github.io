@@ -40,10 +40,6 @@ function add_solution(cfg, t1, t2, t3, solution)
 	{
 		solutions[cfg][t1][t2][t3] = solution;
 	}
-	else		
-	{
-		document.write('duplicated '+cfg+' ' +t1+ ' '+t2+' '+t3+' '+solution+' = '+solutions[cfg][t1][t2][t3] + '<br>');
-	}
 }
 
 function refresh_solution(fnum)
@@ -59,72 +55,21 @@ function refresh_solution(fnum)
 	if (fnum == 1 || fnum == 2 || fnum == 3)
 	{
 		t3.selectedIndex = 0;
-		t3 = t3.options[t3.selectedIndex].value;
 	}
-	else
+	t3 = t3.options[t3.selectedIndex].value;
+	for (i = 1; i < 4; i++)
 	{
-		t3 = t3.options[t3.selectedIndex].value;
+		document.getElementById("info" + i).style.display = (i == cfg ? 'block' : 'none');
+		document.getElementById("floor" + i).style.display = (i == cfg ? 'block' : 'none');
+		document.getElementById("footer" + i).style.display = (i == cfg ? 'inline' : 'none');
 	}
-	switch (cfg)
-	{
-		case "1":
-			document.getElementById("info1").style.display = 'block';
-			document.getElementById("info2").style.display = 'none';
-			document.getElementById("info3").style.display = 'none';
-			document.getElementById("floor1").style.display = 'block';
-			document.getElementById("floor2").style.display = 'none';
-			document.getElementById("floor3").style.display = 'none';
-			document.getElementById("footer1").style.display = 'inline';
-			document.getElementById("footer2").style.display = 'none';
-			document.getElementById("footer3").style.display = 'none';
-			document.getElementById("lastterminalname").innerHTML = 'Terminal&nbsp;3<br />Left side';
-			break;
-		case "2":
-			document.getElementById("info1").style.display = 'none';
-			document.getElementById("info2").style.display = 'block';
-			document.getElementById("info3").style.display = 'none';
-			document.getElementById("floor1").style.display = 'none';
-			document.getElementById("floor2").style.display = 'block';
-			document.getElementById("floor3").style.display = 'none';
-			document.getElementById("footer1").style.display = 'none';
-			document.getElementById("footer2").style.display = 'inline';
-			document.getElementById("footer3").style.display = 'none';
-			document.getElementById("lastterminalname").innerHTML = 'Terminal&nbsp;3<br />Left side';
-			break;
-		case "3":
-			document.getElementById("info1").style.display = 'none';
-			document.getElementById("info2").style.display = 'none';
-			document.getElementById("info3").style.display = 'block';
-			document.getElementById("floor1").style.display = 'none';
-			document.getElementById("floor2").style.display = 'none';
-			document.getElementById("floor3").style.display = 'block';
-			document.getElementById("footer1").style.display = 'none';
-			document.getElementById("footer2").style.display = 'none';
-			document.getElementById("footer3").style.display = 'inline';
-			document.getElementById("lastterminalname").innerHTML = 'Terminal&nbsp;2<br />Left side';
-			break;
-	}
-	if (solutions[cfg] === undefined)
+	if (solutions[cfg] === undefined || solutions[cfg][t1] === undefined || solutions[cfg][t1][t2] === undefined)
 	{
 		solution.value = "Unknown";
 		solution.className = "wrongsolution";
 		document.getElementById("t3").style.opacity = "1.0";
 		return;
 	}		
-	if (solutions[cfg][t1] === undefined)
-	{
-		solution.value = "Unknown";
-		solution.className = "wrongsolution";
-		document.getElementById("t3").style.opacity = "1.0";
-		return;
-	}		
-	if (solutions[cfg][t1][t2] === undefined)
-	{
-		solution.value = "Unknown";
-		solution.className = "wrongsolution";
-		document.getElementById("t3").style.opacity = "1.0";
-		return;
-	}
 	var sols = 0;
 	var onlySol = null;
 	solutions[cfg][t1][t2].forEach(function(element) {
@@ -157,7 +102,7 @@ add_solution(3, 8, 5, 4, "Green1");add_solution(3, 9, 10, 10, "Green2");add_solu
 <tr><th style='background: #CCCCCC'>Config</th>
 <th style='background: #8AF28A'>Terminal&nbsp;1<br />Left side</th>
 <th style='background: #6AD26A'>Terminal&nbsp;1<br />Right side</th>
-<th id='lastterminalname' style='background: #FCA2A2'>Terminal&nbsp;3&nbsp;L</th>
+<th id='lastterminalname' style='background: #FCA2A2'>Terminal&nbsp;2&nbsp;L</th>
 <th style='width: 100%; background: #CCCCCC'>Solution</th></tr>
 <tr>
 <td style='background: #787878;'><select id='cfg' onchange='refresh_solution(1);'>
